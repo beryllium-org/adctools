@@ -7,6 +7,12 @@ if len(vr("opts")["w"]) or ("help" in vr("opts")["o"] or "h" in vr("opts")["o"])
         vr("mul", float(vr("opts")["o"]["multiplier"]))
     else:
         vr("mul", 1)
+    if "l" in vr("opts")["o"]:
+        vr("min_volt", int(vr("opts")["o"]["l"]))
+    elif "min_volt" in vr("opts")["o"]:
+        vr("min_volt", int(vr("opts")["o"]["min_volt"]))
+    else:
+        vr("min_volt", 3.5)
     if "v" in vr("opts")["o"]:
         vr("max_volt", float(vr("opts")["o"]["v"]))
     elif "max_volt" in vr("opts")["o"]:
@@ -14,9 +20,9 @@ if len(vr("opts")["w"]) or ("help" in vr("opts")["o"] or "h" in vr("opts")["o"])
     else:
         vr("max_volt", 4.2)
     if "s" in vr("opts")["o"]:
-        vr("samples", int(vr("opts")["o"]["v"]))
+        vr("samples", int(vr("opts")["o"]["s"]))
     elif "samples" in vr("opts")["o"]:
-        vr("samples", int(vr("opts")["o"]["max_volt"]))
+        vr("samples", int(vr("opts")["o"]["samples"]))
     else:
         vr("samples", 30)
     if vr("opts")["w"][0] in pv[0]["analogio_store"]:
@@ -28,9 +34,10 @@ if len(vr("opts")["w"]) or ("help" in vr("opts")["o"] or "h" in vr("opts")["o"])
     if vr("adcobj") is not None:
 
         class battery:
-            def __init__(self, adcobj, multiplier, max_volt, samples, pin_name):
+            def __init__(self, adcobj, multiplier, min_volt, max_volt, samples, pin_name):
                 self._bat = adcobj
                 self._samples = samples
+                self._min_volt = min_volt
                 self._max_volt = max_volt
                 self._multiplier = multiplier
                 self._pin = pin_name
@@ -49,7 +56,7 @@ if len(vr("opts")["w"]) or ("help" in vr("opts")["o"] or "h" in vr("opts")["o"])
 
             @property
             def percentage(self) -> int:
-                return max(0, min(100, int((self.voltage / self._max_volt) * 100)))
+                return max(0, min(100, int((self.voltage - self._min_volt / self._max_volt) * 100)))
 
             @property
             def pin_name(self) -> str:
@@ -61,6 +68,7 @@ if len(vr("opts")["w"]) or ("help" in vr("opts")["o"] or "h" in vr("opts")["o"])
         be.devices[vr("dev_name")][vr("dev_id")] = battery(
             vr("adcobj"),
             multiplier=vr("mul"),
+            min_volt=vr("min_volt")
             max_volt=vr("max_volt"),
             samples=vr("samples"),
             pin_name=vr("opts")["w"][0]
