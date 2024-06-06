@@ -1,0 +1,10 @@
+Usage: mkbat [OPTIONS] PIN
+Configure a battery sensors
+
+  -h, --help          give this help list
+  -m, --multiplier    set the voltage resistor multiplier ratio
+                      default is 1.0
+  -v, --max_volt      set the battery max voltage
+                      default is 4.2
+  -s, --samples       set how many adc samples should be taken
+                      default is 30

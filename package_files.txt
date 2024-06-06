@@ -1,0 +1,5 @@
+file mkbat.lja /bin/mkbat.lja
+file mkbat.py /bin/mkbat.py
+file mkbat.txt /usr/share/help/mkbat.txt
+file rmbat.lja /bin/rmbat.lja
+file rmbat.py /bin/rmbat.py
