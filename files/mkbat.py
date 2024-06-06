@@ -24,7 +24,7 @@ if len(vr("opts")["w"]) or ("help" in vr("opts")["o"] or "h" in vr("opts")["o"])
     elif "samples" in vr("opts")["o"]:
         vr("samples", int(vr("opts")["o"]["samples"]))
     else:
-        vr("samples", 30)
+        vr("samples", 1)
     if vr("opts")["w"][0] in pv[0]["analogio_store"]:
         vr("adcobj", pv[0]["analogio_store"][vr("opts")["w"][0]])
     else:
@@ -68,7 +68,7 @@ if len(vr("opts")["w"]) or ("help" in vr("opts")["o"] or "h" in vr("opts")["o"])
         be.devices[vr("dev_name")][vr("dev_id")] = battery(
             vr("adcobj"),
             multiplier=vr("mul"),
-            min_volt=vr("min_volt")
+            min_volt=vr("min_volt"),
             max_volt=vr("max_volt"),
             samples=vr("samples"),
             pin_name=vr("opts")["w"][0]
