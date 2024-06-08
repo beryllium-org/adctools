@@ -56,7 +56,7 @@ if len(vr("opts")["w"]) or ("help" in vr("opts")["o"] or "h" in vr("opts")["o"])
 
             @property
             def percentage(self) -> int:
-                return max(0, min(100, int((self.voltage - self._min_volt / self._max_volt) * 100)))
+                return max(0, min(100, int((self.voltage - self._min_volt) / (self._max_volt - self._min_volt) * 100)))
 
             @property
             def pin_name(self) -> str:
