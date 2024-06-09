@@ -12,7 +12,7 @@ if len(vr("opts")["w"]) or ("help" in vr("opts")["o"] or "h" in vr("opts")["o"])
     elif "min_volt" in vr("opts")["o"]:
         vr("min_volt", int(vr("opts")["o"]["min_volt"]))
     else:
-        vr("min_volt", 3.5)
+        vr("min_volt", 3.2)
     if "v" in vr("opts")["o"]:
         vr("max_volt", float(vr("opts")["o"]["v"]))
     elif "max_volt" in vr("opts")["o"]:
