@@ -18,7 +18,7 @@ if len(vr("opts")["w"]) or ("help" in vr("opts")["o"] or "h" in vr("opts")["o"])
     elif "max_volt" in vr("opts")["o"]:
         vr("max_volt", float(vr("opts")["o"]["max_volt"]))
     else:
-        vr("max_volt", 4.2)
+        vr("max_volt", 4.1)
     if "s" in vr("opts")["o"]:
         vr("samples", int(vr("opts")["o"]["s"]))
     elif "samples" in vr("opts")["o"]:
