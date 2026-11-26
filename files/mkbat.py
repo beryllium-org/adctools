@@ -34,7 +34,9 @@ if len(vr("opts")["w"]) or ("help" in vr("opts")["o"] or "h" in vr("opts")["o"])
     if vr("adcobj") is not None:
 
         class battery:
-            def __init__(self, adcobj, multiplier, min_volt, max_volt, samples, pin_name):
+            def __init__(
+                self, adcobj, multiplier, min_volt, max_volt, samples, pin_name
+            ):
                 self._bat = adcobj
                 self._samples = samples
                 self._min_volt = min_volt
@@ -56,14 +58,26 @@ if len(vr("opts")["w"]) or ("help" in vr("opts")["o"] or "h" in vr("opts")["o"])
 
             @property
             def percentage(self) -> int:
-                return max(0, min(100, int((self.voltage - self._min_volt) / (self._max_volt - self._min_volt) * 100)))
+                return max(
+                    0,
+                    min(
+                        100,
+                        int(
+                            (self.voltage - self._min_volt)
+                            / (self._max_volt - self._min_volt)
+                            * 100
+                        ),
+                    ),
+                )
 
             @property
             def pin_name(self) -> str:
                 return self._pin
 
-        be.based.run("mknod bat")
-        vr("node", be.api.getvar("return"))
+        be.api.setvar("argj", "mknod bat")
+        be.api.subscript("/bin/mknod.py")
+        vr("node", be.api.getvar("out"))
+        be.api.setvar("out", None)
         be.api.subscript("/bin/stringproccessing/devid.py")
         be.devices[vr("dev_name")][vr("dev_id")] = battery(
             vr("adcobj"),
@@ -71,7 +85,7 @@ if len(vr("opts")["w"]) or ("help" in vr("opts")["o"] or "h" in vr("opts")["o"])
             min_volt=vr("min_volt"),
             max_volt=vr("max_volt"),
             samples=vr("samples"),
-            pin_name=vr("opts")["w"][0]
+            pin_name=vr("opts")["w"][0],
         )
         del battery
         dmtex("Battery sensor registered at /dev/" + vr("dev_name") + str(vr("dev_id")))
